@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10111b">
+<title>Kreator AI Studio — Demo</title>
+<style>
+:root{--bg:#0e1019;--panel:#171a28;--panel2:#202438;--line:#30364d;--text:#f4f5ff;--muted:#a8aec8;--accent:#a78bfa;--accent2:#67e8f9;--good:#9ae6b4;--danger:#fda4af}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 500px at 0% -10%,#29224b 0%,transparent 55%),var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{padding:24px 18px 18px;border-bottom:1px solid var(--line);background:#10111bdc;position:sticky;top:0;z-index:4;backdrop-filter:blur(14px)}
+.wrap{max-width:1050px;margin:auto}
+.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#a78bfa,#67e8f9);color:#111323;font-weight:900;font-size:20px}
+h1{font-size:21px;line-height:1.2;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}
+main{max-width:1050px;margin:0 auto;padding:18px;display:grid;gap:16px}
+.notice{padding:12px 14px;border:1px solid #5b4b85;background:#211d35;border-radius:14px;color:#e4ddff;font-size:13px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+.tab{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 13px;border-radius:12px}
+.tab.active{background:#31274f;color:white;border-color:#8b75c7}
+.panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+.panel.active{display:block}
+h2{font-size:18px;margin:0 0 5px}h3{font-size:14px;margin:18px 0 8px}
+.help{color:var(--muted);font-size:13px;margin:0 0 14px}
+label{display:block;color:#d9dcf0;font-size:13px;margin:12px 0 6px}
+input[type=text],textarea,select,input[type=number]{width:100%;background:#101320;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:11px 12px;outline:none}
+textarea{resize:vertical;min-height:95px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+button.primary{border:0;background:linear-gradient(120deg,#a78bfa,#67e8f9);color:#111323;font-weight:800;padding:11px 15px;border-radius:11px}
+button.secondary{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 13px;border-radius:11px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.row>*{flex:1}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.drop{border:1px dashed #6c7294;border-radius:14px;padding:18px;text-align:center;background:#111421}
+.preview{width:100%;max-height:430px;object-fit:contain;background:#0b0d14;border-radius:12px;display:block}
+.empty{padding:30px 12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.stat{background:#111421;border:1px solid var(--line);border-radius:12px;padding:12px}.stat strong{display:block;font-size:18px}.stat span{color:var(--muted);font-size:12px}
+.scene{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;background:#111421}
+.scene-top{display:flex;gap:8px;justify-content:space-between;align-items:center}.scene-title{font-weight:700}
+.small{font-size:12px;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:12px 18px 30px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 8px;color:var(--muted);font-size:11px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#f4f5ff;color:#111323;padding:11px 15px;border-radius:12px;z-index:10;box-shadow:0 10px 35px #0008;max-width:90vw;display:none}
+@media(max-width:650px){header{padding:16px 14px}.brand h1{font-size:19px}main{padding:12px}.panel{padding:13px}.two,.three{grid-template-columns:1fr}.tab{padding:9px 11px}}
+</style>
+</head>
+<body>
+<header><div class="wrap brand"><div class="logo">K</div><div><h1>Kreator AI Studio</h1><div class="sub">Studio kreator pribadi · prototipe offline untuk iPhone</div></div><span class="pill" style="margin-left:auto">DEMO</span></div></header>
+<main>
+<div class="notice"><strong>Mode demo yang jujur:</strong> alat di halaman ini benar-benar bisa mengedit gambar di perangkat, menyusun ide video, dan mengunduh hasil. Ini belum terhubung ke model AI online, jadi tidak membuat gambar/video baru dari prompt secara otomatis. File yang kamu pilih diproses lokal di browser.</div>
+<div class="tabs" role="tablist">
+<button class="tab active" data-tab="home">Beranda</button><button class="tab" data-tab="image">Edit gambar</button><button class="tab" data-tab="story">Ide & storyboard</button><button class="tab" data-tab="export">Ekspor proyek</button>
+</div>
+<section class="panel active" id="home">
+<h2>Selamat datang, kreator!</h2><p class="help">Mulai dari gambar yang sudah kamu punya, lalu edit tampilannya atau susun konsep video Shorts.</p>
+<div class="three"><div class="stat"><strong id="statImages">0</strong><span>Gambar dimuat sesi ini</span></div><div class="stat"><strong id="statScenes">0</strong><span>Adegan storyboard</span></div><div class="stat"><strong>9:16</strong><span>Format target Shorts</span></div></div>
+<h3>Mulai cepat</h3><div class="row"><button class="primary" data-goto="image">🖼️ Edit gambar</button><button class="secondary" data-goto="story">✍️ Buat storyboard</button></div>
+<hr><h3>Yang tersedia sekarang</h3><ul><li>Pratinjau foto dari galeri iPhone.</li><li>Kontrol kecerahan, saturasi, hitam-putih, dan blur.</li><li>Unduh gambar hasil edit sebagai PNG.</li><li>Buat daftar adegan dari naskah, atur durasi dan caption.</li><li>Unduh naskah/storyboard sebagai file teks.</li></ul>
+</section>
+<section class="panel" id="image">
+<h2>Studio edit gambar</h2><p class="help">Pilih foto dari iPhone. Perubahan terlihat langsung; file asli tidak diubah.</p>
+<div class="drop"><label for="fileInput" style="margin-top:0">Pilih gambar dari Foto/File</label><input id="fileInput" type="file" accept="image/*" style="max-width:100%"><div class="small">JPG, PNG, WebP yang didukung browser. Gambar tetap di perangkat.</div></div>
+<div id="imageArea" style="margin-top:14px"><div class="empty">Belum ada gambar. Pilih gambar untuk mulai mengedit.</div></div>
+<div id="controls" style="display:none">
+<div class="two">
+<div><label for="brightness">Kecerahan: <span id="brightnessVal">100%</span></label><input id="brightness" type="range" min="40" max="180" value="100"></div>
+<div><label for="saturation">Saturasi: <span id="saturationVal">100%</span></label><input id="saturation" type="range" min="0" max="200" value="100"></div>
+<div><label for="blur">Blur: <span id="blurVal">0px</span></label><input id="blur" type="range" min="0" max="8" value="0"></div>
+<div><label for="gray">Hitam-putih</label><select id="gray"><option value="0">Warna asli</option><option value="1">Hitam-putih</option></select></div>
+</div>
+<div class="row" style="margin-top:14px"><button class="primary" id="downloadImage">Unduh PNG hasil edit</button><button class="secondary" id="resetImage">Reset edit</button></div>
+<p class="small">Tips: untuk thumbnail Shorts, coba kecerahan 105–115% dan saturasi 110–125%, lalu cek agar wajah/teks tetap jelas.</p>
+</div>
+</section>
+<section class="panel" id="story">
+<h2>Ide & storyboard Shorts</h2><p class="help">Masukkan naskah. Tombol pecah otomatis membuat adegan dari paragraf atau baris, bukan menghasilkan video AI.</p>
+<label for="projectTitle">Judul proyek</label><input id="projectTitle" type="text" placeholder="Contoh: Kenapa lebah bisa menemukan bunga?">
+<label for="script">Naskah / ide video</label><textarea id="script" placeholder="Masukkan naskah di sini. Pisahkan adegan dengan baris kosong agar hasilnya lebih rapi."></textarea>
+<div class="row" style="margin-top:10px"><button class="primary" id="splitScript">Pecah jadi adegan</button><button class="secondary" id="addScene">+ Tambah adegan kosong</button></div>
+<div id="sceneList"><div class="empty">Belum ada adegan. Tulis naskah lalu tekan “Pecah jadi adegan”.</div></div>
+</section>
+<section class="panel" id="export">
+<h2>Ekspor proyek</h2><p class="help">Unduh naskah dan storyboard untuk disimpan atau dilanjutkan di CapCut.</p>
+<div class="stat"><span>Judul proyek</span><strong id="exportTitle" style="font-size:16px">Proyek tanpa judul</strong><span id="exportCount">0 adegan</span></div>
+<label for="exportFormat">Format dokumen</label><select id="exportFormat"><option value="txt">Teks (.txt) — cocok untuk Catatan/CapCut</option><option value="md">Markdown (.md)</option></select>
+<div class="row" style="margin-top:12px"><button class="primary" id="downloadStory">Unduh storyboard</button><button class="secondary" id="copyStory">Salin naskah</button></div>
+<hr><h3>Langkah berikutnya untuk video</h3><ol><li>Unduh gambar hasil edit atau siapkan gambar per adegan.</li><li>Gunakan storyboard sebagai urutan narasi.</li><li>Masukkan gambar, rekaman suara, dan teks ke CapCut.</li><li>Atur kanvas 9:16 dan ekspor 1080 × 1920 jika tersedia.</li></ol>
+<p class="small">Ekspor video MP4 dan generasi gambar AI belum tersedia di demo ini. Untuk itu diperlukan mesin render atau layanan AI terhubung, biasanya lewat internet/API.</p>
+</section>
+</main>
+<footer>Kreator AI Studio · Demo lokal · Simpan file ini agar bisa dibuka lagi di browser.</footer>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+let sourceImage = null, imageName = "gambar", imageCount = 0, scenes = [];
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display="none",2600)}
+function showTab(id){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));if(id==="export")updateExport();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.goto)));
+$("fileInput").addEventListener("change", e=>{
+ const f=e.target.files&&e.target.files[0]; if(!f)return;
+ if(!f.type.startsWith("image/")){toast("Pilih file gambar ya.");return}
+ const url=URL.createObjectURL(f), im=new Image();
+ im.onload=()=>{sourceImage=im;imageName=(f.name||"gambar").replace(/\.[^.]+$/,"");imageCount++;$("statImages").textContent=imageCount;$("controls").style.display="block";$("imageArea").innerHTML='<canvas class="preview" id="previewCanvas"></canvas>';renderImage();toast("Gambar siap diedit.")};
+ im.onerror=()=>toast("Gambar tidak bisa dibuka browser.");
+ im.src=url;
+});
+function filterString(){return `brightness(${$("brightness").value}%) saturate(${$("saturation").value}%) grayscale(${$("gray").value}) blur(${$("blur").value}px)`}
+function renderImage(){
+ if(!sourceImage)return;
+ const c=$("previewCanvas");if(!c)return;
+ const max=1600,scale=Math.min(1,max/sourceImage.naturalWidth,max/sourceImage.naturalHeight);
+ c.width=Math.max(1,Math.round(sourceImage.naturalWidth*scale));c.height=Math.max(1,Math.round(sourceImage.naturalHeight*scale));
+ const ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);ctx.filter=filterString();ctx.drawImage(sourceImage,0,0,c.width,c.height);ctx.filter="none";
+ $("brightnessVal").textContent=$("brightness").value+"%";$("saturationVal").textContent=$("saturation").value+"%";$("blurVal").textContent=$("blur").value+"px";
+}
+["brightness","saturation","blur","gray"].forEach(id=>$(id).addEventListener("input",renderImage));
+$("resetImage").addEventListener("click",()=>{$("brightness").value=100;$("saturation").value=100;$("blur").value=0;$("gray").value=0;renderImage();toast("Edit direset.")});
+$("downloadImage").addEventListener("click",()=>{
+ const c=$("previewCanvas");if(!c)return;
+ c.toBlob(blob=>{if(!blob){toast("Tidak bisa membuat PNG di browser ini.");return}downloadBlob(blob,(imageName||"gambar")+"-edit.png");toast("PNG hasil edit disiapkan.")},"image/png");
+});
+function downloadBlob(blob,name){const a=document.createElement("a");const u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function splitScript(){
+ const raw=$("script").value.trim();if(!raw){toast("Isi naskah dulu ya.");return}
+ const blocks=raw.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
+ const chunks=blocks.length>1?blocks:raw.split(/\n/).map(s=>s.trim()).filter(Boolean);
+ const finalChunks=[];
+ chunks.forEach(chunk=>{if(chunk.length>280){const parts=chunk.match(/[^.!?]+[.!?]*/g)||[chunk];let current="";parts.forEach(p=>{if((current+" "+p).trim().length>240&&current){finalChunks.push(current.trim());current=p.trim()}else current+=(current?" ":"")+p.trim()});if(current.trim())finalChunks.push(current.trim())}else finalChunks.push(chunk)});
+ scenes=finalChunks.map((text,i)=>({text,duration:5,caption:"",visual:""}));renderScenes();toast(scenes.length+" adegan dibuat.");
+}
+$("splitScript").addEventListener("click",splitScript);
+$("addScene").addEventListener("click",()=>{scenes.push({text:"",duration:5,caption:"",visual:""});renderScenes();toast("Adegan ditambahkan.")});
+function renderScenes(){
+ const host=$("sceneList");$("statScenes").textContent=scenes.length;
+ if(!scenes.length){host.innerHTML='<div class="empty">Belum ada adegan.</div>';updateExport();return}
+ host.innerHTML=scenes.map((s,i)=>`<div class="scene" data-index="${i}">
+ <div class="scene-top"><div class="scene-title">Adegan ${i+1}</div><button class="secondary" data-remove="${i}" style="flex:0 0 auto;padding:6px 9px">Hapus</button></div>
+ <label>Narasi / isi adegan</label><textarea data-field="text" data-index="${i}">${escapeHtml(s.text)}</textarea>
+ <div class="two"><div><label>Durasi (detik)</label><input type="number" min="1" max="120" data-field="duration" data-index="${i}" value="${Number(s.duration)||5}"></div>
+ <div><label>Teks layar (opsional)</label><input type="text" data-field="caption" data-index="${i}" value="${escapeHtml(s.caption)}" placeholder="Teks pendek di layar"></div></div>
+ <label>Deskripsi visual/gambar (opsional)</label><input type="text" data-field="visual" data-index="${i}" value="${escapeHtml(s.visual)}" placeholder="Contoh: close-up lebah di bunga, latar cerah">
+ </div>`).join("");
+ host.querySelectorAll("[data-field]").forEach(el=>el.addEventListener("input",()=>{const i=Number(el.dataset.index),field=el.dataset.field;scenes[i][field]=field==="duration"?Math.max(1,Math.min(120,Number(el.value)||1)):el.value;updateExport()}));
+ host.querySelectorAll("[data-remove]").forEach(el=>el.addEventListener("click",()=>{scenes.splice(Number(el.dataset.remove),1);renderScenes()}));
+ updateExport();
+}
+function projectTitle(){return $("projectTitle").value.trim()||"Proyek tanpa judul"}
+function storyText(){
+ const out=[projectTitle(),"Kreator AI Studio — Storyboard",""];
+ scenes.forEach((s,i)=>{out.push(`ADEGAN ${i+1} (${Number(s.duration)||5} detik)`,s.text||"(narasi belum diisi)");if(s.caption)out.push("Teks layar: "+s.caption);if(s.visual)out.push("Visual: "+s.visual);out.push("")});
+ return out.join("\n");
+}
+function updateExport(){$("exportTitle").textContent=projectTitle();$("exportCount").textContent=scenes.length+" adegan · "+scenes.reduce((a,s)=>a+(Number(s.duration)||0),0)+" detik total";$("statScenes").textContent=scenes.length}
+$("projectTitle").addEventListener("input",updateExport);
+$("downloadStory").addEventListener("click",()=>{const ext=$("exportFormat").value;const content=ext==="md"?"# "+projectTitle()+"\n\n"+storyText().split("\n").slice(2).join("\n"):storyText();downloadBlob(new Blob([content],{type:"text/plain;charset=utf-8"}),(projectTitle().replace(/[^\p{L}\p{N}-]+/gu,"-").replace(/^-|-$/g,"")||"storyboard")+"."+ext);toast("File storyboard disiapkan.")});
+$("copyStory").addEventListener("click",async()=>{
+ try{await navigator.clipboard.writeText(storyText());toast("Storyboard disalin.")}catch(e){const ta=document.createElement("textarea");ta.value=storyText();document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Storyboard disalin.")}catch(err){toast("Salin otomatis gagal; unduh file TXT saja.")}ta.remove()}
+});
+updateExport();
+})();
+</script>
+</body>
+</html>
